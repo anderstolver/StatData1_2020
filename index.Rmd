@@ -1,0 +1,21 @@
+---
+title: "Generel info om Statistisk Dataanalyse 1 (version 2020/2021)"
+output: 
+  html_document:
+    toc: true
+---
+
+***
+
+
+Velkommen til kurset <h2>Statistisk Dataanalyse 1 (version 2020/2021)</h2>
+
+De vigtigste oplysninger findes både på kursets Absalon-side og på kursets eksterne kursushjemmeside. Det er dog i høj grad kursushjemmesiden, som vil blive brugt til distribution af kursusmateriale.
+
+Vær opmærksom på følgende vigtige links
+
+* Kursets [officielle kursusbeskrivelse](https://kurser.ku.dk/course/lmab10069u/2020-2021)
+* Kursets eksterne [hjemmeside](https://anderstolver.github.io/StatData1_2020/index.html)
+
+
+***

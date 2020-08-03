@@ -1,0 +1,20 @@
+name: "Statistisk Dataanalyse 1 (2019/2020)"
+output_dir: "docs"
+navbar:
+  title: "Statistisk Dataanalyse 1 (2020/2021)"
+  left:
+    - text: "Praktiske oplysninger"
+    #  href: index.html
+    # - text: "Kursusplan"
+    #  href: kursusplan.html
+    # - text: "Slides"
+    # - text: "R"
+    #  href: R.html
+    # - text: "Data"
+    #  href: data.html
+    # - text: "Opgaver"
+    #  menu:
+    #    - text: "Fra ovelsestimer"
+    #      href: https://github.com/anderstolver/StatData1_2019/tree/master/docs/opgaver
+    #    - text: "Gamle eksamensopgaver"
+    #      href: https://github.com/anderstolver/StatData1_2019/tree/master/docs/eksamensopgaver
