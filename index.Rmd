@@ -17,5 +17,36 @@ Vær opmærksom på følgende vigtige links
 * Kursets [officielle kursusbeskrivelse](https://kurser.ku.dk/course/lmab10069u/2020-2021)
 * Kursets eksterne [hjemmeside](https://anderstolver.github.io/StatData1_2020/index.html)
 
+***
+
+# Praktiske oplysninger om undervisningen
+
+## Kursusansvarlig og forelæser
+
+Forelæsninger, kursusplanlægning og eksamen varetages af: Anders Tolver (<tolver@math.ku.dk>)
+
+
+*** 
+
+## Instruktorer
 
 ***
+
+## Skema / Ugestruktur
+
+Vi er alle stærkt udfordrede af restriktionerne vedrørende COVID-19. Det velafprøvede format med fysiske forelæsninger for alle kombineret med øvelsesundervisning på mindre klassehold kan slet ikke afvikles inden for de nuværende rammer. Det vil kræve en god portion tålmodighed og gensidig forståelse studerende og undervisere imellem at få kursusafviklingen til at fungere nogenlunde tilfredsstillende. Da jeg (=Anders Tolver) bevæger mig på ukendt territorium, vil jeg næppe kunne præsentere en struktur for undervisningen, som vil holde fra start til slut. Dette skyldes dels, at jeg ikke på forhånd ved, hvad jeg rent faktisk vil kunne nå at lave om fra uge til uge (i forhold til sidste år), og dels at jeg naturligivs vil forsøge at rette ind, hvis det bliver klart på baggrund af jeres løbende feedback, at noget ikke fungerer.
+
+Som udgangspunkt forestiller jeg mig, at hver undervisningsuge vil bestå af
+
+* live streamede *forelæsninger* hvor der undervejs lægges op til mindre former for studenteraktivitet og gives mulighed for at give en eller anden feedback fra studerende til forelæser
+
+* nogle kortere videoer, hvor jeg gennemgår/taler ind over nogle konkrete eksempler som skal sætte jer selv i stand til at overføre teorien til praksis. Disse eksempler vil desuden give hints og tricks til, hvordan man bruger programmet R
+
+* regneøvelser hvor I har mulighed for at danne mindre arbejdsgrupper som efter behov kan stille spørgsmål online til en hjælpelærer via Zoom eller Microsoft Teams
+
+* en live streamet session hvor jeg dels følger op på feedback og spørgsmål fra studerende efter forelæsninger, og dels gennemgår *ugens quiz*
+
+* (frivillige) skriftlige afleveringsopgaver som rettes af en hjælpelærer (2-3 gange i løbet af undervisningsblokken)
+
+
+
