@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -69,9 +69,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -85,7 +83,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -95,6 +92,9 @@ img {
 }
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -110,7 +110,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -130,6 +129,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -151,19 +187,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -186,8 +277,23 @@ $(document).ready(function () {
 <li>
   <a href="kursusplan.html">Kursusplan</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Slides
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="slides/sd1_forel200831.pdf">31/8-2020</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="R.html">R</a>
+</li>
+<li>
+  <a href="data.html">Data</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -220,23 +326,23 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#oversigt-over-undervisningen">Oversigt over undervisningen</a><ul>
-<li><a href="#liste-over-gennemgaet-pensum">Liste over gennemgået pensum</a></li>
+<li><a href="#liste-over-gennemgået-pensum">Liste over gennemgået pensum</a></li>
 </ul></li>
 <li><a href="#program-for-enkelte-uger">Program for enkelte uger</a><ul>
 <li><a href="#uge1">Kursusuge 1</a><ul>
 <li><a href="#generel-info">Generel info</a></li>
-<li><a href="#forelsninger">Forelæsninger</a></li>
-<li><a href="#velsestimer">Øvelsestimer</a></li>
+<li><a href="#forelæsninger">Forelæsninger</a></li>
+<li><a href="#øvelsestimer">Øvelsestimer</a></li>
 </ul></li>
 <li><a href="#uge2">Kursusuge 2</a><ul>
 <li><a href="#generel-info-1">Generel info</a></li>
-<li><a href="#forelsninger-1">Forelæsninger</a></li>
-<li><a href="#velsestimer-1">Øvelsestimer</a></li>
+<li><a href="#forelæsninger-1">Forelæsninger</a></li>
+<li><a href="#øvelsestimer-1">Øvelsestimer</a></li>
 </ul></li>
 <li><a href="#uge3">Kursusuge 3</a><ul>
 <li><a href="#generel-info-2">Generel info</a></li>
-<li><a href="#forelsninger-2">Forelæsninger</a></li>
-<li><a href="#velsestimer-2">Øvelsestimer</a></li>
+<li><a href="#forelæsninger-2">Forelæsninger</a></li>
+<li><a href="#øvelsestimer-2">Øvelsestimer</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -272,7 +378,7 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
-<div id="liste-over-gennemgaet-pensum" class="section level2">
+<div id="liste-over-gennemgået-pensum" class="section level2">
 <h2>Liste over gennemgået pensum</h2>
 <p>Følgende afsnit fra lærebogen er gennemgået</p>
 <ul>
@@ -315,8 +421,8 @@ $(document).ready(function () {
 <div id="generel-info" class="section level3">
 <h3>Generel info</h3>
 <p>Der er den 28/8-2020 udsendt to e-mails med information omkring undervisningen. <strong>Gå ind i Absalon og meld dig på et af de 7 Teams øvelseshold</strong> som benyttes i forbindelse med online regneøvelserne. Hvis I er en gruppe af studerende, som gerne vil arbejde sammen, så skal I sørge for at melde jer på samme øvelseshold. Instruktoren sørger så for, at I bliver inviteret til at følge online øvelsesundervisningen på netop dette hold.</p>
-<p>Det er muligt at få en invitation til at deltage i online undervisning på andre hold også, men så skal du selv skrive en e-mail til øvelseslæreren for det pågældende hold/Teams gruppe. Du finder en oversigt over hjælpelærernes navne og e-mail adresser under <strong>Instruktorer</strong> på siden med <a href="https://anderstolver.github.io/StatData1_2020/index.html">praktiske oplysninger</a>.</p>
-<p>Som nævnt i e-mail d. 28/8-2020 <strong>bedes du også gå ind i Absalon og melde dig på hold, hvis du ønsker at deltage i noget af den fysiske undervisning</strong> på Frederikberg Campus. Dette er for at sikre, at vi kan overholde restriktionerne med hensyn til, hvor mange der må være i lokalerne.</p>
+<p>Det er muligt at få en invitation til at deltage i online undervisning på andre hold også, men så skal du selv anmode øvelseslæreren for det pågældende hold/Teams gruppe om det. Du finder en oversigt over hjælpelærernes navne og e-mail adresser under <strong>Instruktorer</strong> på siden med <a href="https://anderstolver.github.io/StatData1_2020/index.html">praktiske oplysninger</a>. Du finder også et link til alle øvelsesholdene i Teams under modulet <em>Om kurset</em> på Absalon.</p>
+<p>Som nævnt i e-mail d. 28/8-2020 <strong>bedes du også gå ind i Absalon og melde dig på hold, hvis du ønsker at deltage i noget af den fysiske undervisning</strong> på Frederikberg Campus. Dette er for at sikre, at vi kan overholde restriktionerne med hensyn til, hvor mange der må være i lokalerne.</p>
 <p>Ud over at følge de skemalagte undervisningsaktiviteter bør du i kursusuge 1</p>
 <ul>
 <li><p>læse den <a href="https://anderstolver.github.io/StatData1_2020/index.html">praktiske information om kurset</a></p></li>
@@ -325,11 +431,11 @@ $(document).ready(function () {
 </ul>
 <p>Bemærk desuden, at der sikkert er stillet flere opgaver end du kan nå i timerne, og at du skal lave resten derhjemme. Husk at du forventes at arbejde 20 timer om ugen med kurset, for at få fuldt udbytte af undervisningen.</p>
 </div>
-<div id="forelsninger" class="section level3">
+<div id="forelæsninger" class="section level3">
 <h3>Forelæsninger</h3>
-<div id="forelsninger-mandag-kl.-1300-1445-live-streaming" class="section level4">
+<div id="forelæsninger-mandag-kl.-1300-1445-live-streaming" class="section level4">
 <h4>Forelæsninger mandag kl. 13:00-14:45 (live streaming)</h4>
-<p>Link til live streaming af forelæsning: <strong>Kommer senest mandag morgen.</strong></p>
+<p>Link til <a href="https://ucph-ku.zoom.us/j/64697488214">live streaming af forelæsning</a>.</p>
 <!--
 Videooptagelse af forelæsning kan finde under ... i Absalon
 -->
@@ -339,23 +445,20 @@ Videooptagelse af forelæsning kan finde under ... i Absalon
 <li>Genopfriskning af R</li>
 <li>Kapitel 1: Datatyper, deskriptiv statistik</li>
 </ul>
-<p>Slides til dagens forelæsning:</p>
-<!--
-[fuld version](slides/sd1_forel190902.pdf) - [kort version: 4 slides per side](slides/sd1_forel190902_short.pdf)
--->
-<p>R-program fra forelæsning d. 31/8-2020:</p>
+<p>Slides til dagens forelæsning: <a href="slides/sd1_forel200831.pdf">fuld version</a> - <a href="slides/sd1_forel200831_short.pdf">kort version: 4 slides per side</a></p>
+<p>R-program fra forelæsning d. 31/8-2020:</p>
 <!--
 [output](R/forel190902_Rprog.html) - [R Markdown](R/forel190902_Rprog.Rmd)
 -->
 </div>
-<div id="forelsninger-onsdag-kl.-845-1015-live-streaming-fra-aud---a2-81.01" class="section level4">
+<div id="forelæsninger-onsdag-kl.-845-1015-live-streaming-fra-aud---a2-81.01" class="section level4">
 <h4>Forelæsninger onsdag kl. 8:45-10:15 live streaming fra aud - A2-81.01</h4>
 <p>Link til live streaming af forelæsning:</p>
 </div>
 </div>
-<div id="velsestimer" class="section level3">
+<div id="øvelsestimer" class="section level3">
 <h3>Øvelsestimer</h3>
-<div id="velser-mandag-kl.-15.00-16.45-online" class="section level4">
+<div id="øvelser-mandag-kl.-15.00-16.45-online" class="section level4">
 <h4>Øvelser mandag kl. 15.00-16.45 (online)</h4>
 <p><strong>Husk:</strong> Du bliver kun inviteret til at deltage i online øvelsestimerne, hvis du tilmelder dig et af de 7 øvelseshold / Teams grupper under <strong>People</strong> på kursets Absalonside.</p>
 <p>HS-opgaver kan findes <a href="https://github.com/anderstolver/StatData1_2020/tree/master/docs/opgaver">her</a>. De øvrige opgaver er fra lærebogen.</p>
@@ -368,7 +471,7 @@ Videooptagelse af forelæsning kan finde under ... i Absalon
 <li>Opgave 1.8: Histogrammer og boxplots</li>
 </ul>
 </div>
-<div id="velser-onsdag-kl.-1115-1200-online-og-kl.-13.00-14.45-blended" class="section level4">
+<div id="øvelser-onsdag-kl.-1115-1200-online-og-kl.-13.00-14.45-blended" class="section level4">
 <h4>Øvelser onsdag kl. 11:15-12:00 (online) og kl. 13.00-14.45 (blended)</h4>
 <p>Undervisning fra 11:15-12:00 foregår online med øvelseslærerne for alle 7 øvelseshold / Teams grupper.</p>
 <p>Undervisning fra kl. 13:00-14:45 er en blanding af fysisk og online undervisning efter følgende plan</p>
@@ -387,23 +490,23 @@ Videooptagelse af forelæsning kan finde under ... i Absalon
 <div id="generel-info-1" class="section level3">
 <h3>Generel info</h3>
 </div>
-<div id="forelsninger-1" class="section level3">
+<div id="forelæsninger-1" class="section level3">
 <h3>Forelæsninger</h3>
-<div id="forelsninger-mandag-kl.-1300-1445-live-streaming-1" class="section level4">
+<div id="forelæsninger-mandag-kl.-1300-1445-live-streaming-1" class="section level4">
 <h4>Forelæsninger mandag kl. 13:00-14:45 (live streaming)</h4>
 <p>Link til live streaming af forelæsning:</p>
 </div>
-<div id="forelsninger-onsdag-kl.-845-1015-live-streaming-fra-aud---a2-81.01-1" class="section level4">
+<div id="forelæsninger-onsdag-kl.-845-1015-live-streaming-fra-aud---a2-81.01-1" class="section level4">
 <h4>Forelæsninger onsdag kl. 8:45-10:15 live streaming fra aud - A2-81.01</h4>
 <p>Link til live streaming af forelæsning:</p>
 </div>
 </div>
-<div id="velsestimer-1" class="section level3">
+<div id="øvelsestimer-1" class="section level3">
 <h3>Øvelsestimer</h3>
-<div id="velser-mandag-kl.-15.00-16.45-online-1" class="section level4">
+<div id="øvelser-mandag-kl.-15.00-16.45-online-1" class="section level4">
 <h4>Øvelser mandag kl. 15.00-16.45 (online)</h4>
 </div>
-<div id="velser-onsdag-kl.-1115-1200-online-og-kl.-13.00-14.45-blended-1" class="section level4">
+<div id="øvelser-onsdag-kl.-1115-1200-online-og-kl.-13.00-14.45-blended-1" class="section level4">
 <h4>Øvelser onsdag kl. 11:15-12:00 (online) og kl. 13.00-14.45 (blended)</h4>
 <p>Undervisning fra 11:15-12:00 foregår online med øvelseslærerne for alle 7 øvelseshold / Teams grupper.</p>
 <p>Undervisning fra kl. 13:00-14:45 er en blanding af fysisk og online undervisning efter følgende plan</p>
@@ -422,23 +525,23 @@ Videooptagelse af forelæsning kan finde under ... i Absalon
 <div id="generel-info-2" class="section level3">
 <h3>Generel info</h3>
 </div>
-<div id="forelsninger-2" class="section level3">
+<div id="forelæsninger-2" class="section level3">
 <h3>Forelæsninger</h3>
-<div id="forelsninger-mandag-kl.-1300-1445-live-streaming-2" class="section level4">
+<div id="forelæsninger-mandag-kl.-1300-1445-live-streaming-2" class="section level4">
 <h4>Forelæsninger mandag kl. 13:00-14:45 (live streaming)</h4>
 <p>Link til live streaming af forelæsning:</p>
 </div>
-<div id="forelsninger-onsdag-kl.-845-1015-live-streaming-fra-aud---a2-81.01-2" class="section level4">
+<div id="forelæsninger-onsdag-kl.-845-1015-live-streaming-fra-aud---a2-81.01-2" class="section level4">
 <h4>Forelæsninger onsdag kl. 8:45-10:15 live streaming fra aud - A2-81.01</h4>
 <p>Link til live streaming af forelæsning:</p>
 </div>
 </div>
-<div id="velsestimer-2" class="section level3">
+<div id="øvelsestimer-2" class="section level3">
 <h3>Øvelsestimer</h3>
-<div id="velser-mandag-kl.-15.00-16.45-online-2" class="section level4">
+<div id="øvelser-mandag-kl.-15.00-16.45-online-2" class="section level4">
 <h4>Øvelser mandag kl. 15.00-16.45 (online)</h4>
 </div>
-<div id="velser-onsdag-kl.-1115-1200-online-og-kl.-13.00-14.45-blended-2" class="section level4">
+<div id="øvelser-onsdag-kl.-1115-1200-online-og-kl.-13.00-14.45-blended-2" class="section level4">
 <h4>Øvelser onsdag kl. 11:15-12:00 (online) og kl. 13.00-14.45 (blended)</h4>
 <p>Undervisning fra 11:15-12:00 foregår online med øvelseslærerne for alle 7 øvelseshold / Teams grupper.</p>
 <p>Undervisning fra kl. 13:00-14:45 er en blanding af fysisk og online undervisning efter følgende plan</p>
@@ -471,6 +574,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

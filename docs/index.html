@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -69,9 +69,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -85,7 +83,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -95,6 +92,9 @@ img {
 }
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -110,7 +110,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -130,6 +129,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -151,19 +187,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -186,8 +277,23 @@ $(document).ready(function () {
 <li>
   <a href="kursusplan.html">Kursusplan</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Slides
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="slides/sd1_forel200831.pdf">31/8-2020</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="R.html">R</a>
+</li>
+<li>
+  <a href="data.html">Data</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -220,21 +326,21 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#praktiske-oplysninger-om-undervisningen">Praktiske oplysninger om undervisningen</a><ul>
-<li><a href="#kursusansvarlig-og-forelser">Kursusansvarlig og forelæser</a></li>
+<li><a href="#kursusansvarlig-og-forelæser">Kursusansvarlig og forelæser</a></li>
 <li><a href="#instruktorer">Instruktorer</a></li>
 <li><a href="#skema-ugestruktur">Skema / Ugestruktur</a></li>
 <li><a href="#plan-over-kursusaktiviteter">Plan over kursusaktiviteter</a></li>
 <li><a href="#indhold">Indhold</a></li>
-<li><a href="#forudstninger">Forudsætninger</a></li>
+<li><a href="#forudsætninger">Forudsætninger</a></li>
 <li><a href="#feedback">Feedback</a></li>
 </ul></li>
 <li><a href="#om-undervisningen">Om undervisningen</a><ul>
 <li><a href="#undervisningsmateriale">Undervisningsmateriale</a></li>
-<li><a href="#forelsninger">Forelæsninger</a></li>
-<li><a href="#velsestimer">Øvelsestimer</a></li>
+<li><a href="#forelæsninger">Forelæsninger</a></li>
+<li><a href="#øvelsestimer">Øvelsestimer</a></li>
 <li><a href="#afleveringsopgaver">Afleveringsopgaver</a></li>
 <li><a href="#hjemmearbejde">Hjemmearbejde</a></li>
-<li><a href="#r-programmer-og-datast">R programmer og datasæt</a></li>
+<li><a href="#r-programmer-og-datasæt">R programmer og datasæt</a></li>
 </ul></li>
 <li><a href="#eksamen">Eksamen</a></li>
 </ul>
@@ -254,28 +360,28 @@ Statistisk Dataanalyse 1 (version 2020/2021)
 <hr />
 <div id="praktiske-oplysninger-om-undervisningen" class="section level1">
 <h1>Praktiske oplysninger om undervisningen</h1>
-<div id="kursusansvarlig-og-forelser" class="section level2">
+<div id="kursusansvarlig-og-forelæser" class="section level2">
 <h2>Kursusansvarlig og forelæser</h2>
-<p>Forelæsninger, kursusplanlægning og eksamen varetages af: Anders Tolver (<a href="mailto:tolver@math.ku.dk">tolver@math.ku.dk</a>)</p>
+<p>Forelæsninger, kursusplanlægning og eksamen varetages af: Anders Tolver (<a href="mailto:tolver@math.ku.dk" class="email">tolver@math.ku.dk</a>)</p>
 <hr />
 </div>
 <div id="instruktorer" class="section level2">
 <h2>Instruktorer</h2>
 <p>Der er tilknyttet 7 instruktorer (hjælpelærere) til kurset</p>
 <ul>
-<li>Hold/Teams gruppe 1 : Adam Gorm Hoffmann (<a href="mailto:NRM545@alumni.ku.dk">NRM545@alumni.ku.dk</a>)</li>
-<li>Hold/Teams gruppe 2 : Jonatan Bjørndal Lychou (<a href="mailto:RZG113@alumni.ku.dk">RZG113@alumni.ku.dk</a>)</li>
-<li>Hold/Teams gruppe 3 : Jens Baalkilde Andersen (<a href="mailto:LDJ472@alumni.ku.dk">LDJ472@alumni.ku.dk</a>)</li>
-<li>Hold/Teams gruppe 4 : Marcus Piil Pedersen (<a href="mailto:XWP674@alumni.ku.dk">XWP674@alumni.ku.dk</a>)</li>
-<li>Hold/Teams gruppe 5 : Josva Engmose Jensen (<a href="mailto:RPH452@alumni.ku.dk">RPH452@alumni.ku.dk</a>)</li>
-<li>Hold/Teams gruppe 6 : Mark Bech Knudsen (<a href="mailto:WRX638@alumni.ku.dk">WRX638@alumni.ku.dk</a>)</li>
-<li>Hold/Teams gruppe 7 : Mathias Petersen (<a href="mailto:TNW212@alumni.ku.dk">TNW212@alumni.ku.dk</a>)</li>
+<li>Hold/Teams gruppe 1 : Adam Gorm Hoffmann (<a href="mailto:NRM545@alumni.ku.dk" class="email">NRM545@alumni.ku.dk</a>)</li>
+<li>Hold/Teams gruppe 2 : Jonatan Bjørndal Lychou (<a href="mailto:RZG113@alumni.ku.dk" class="email">RZG113@alumni.ku.dk</a>)</li>
+<li>Hold/Teams gruppe 3 : Jens Baalkilde Andersen (<a href="mailto:LDJ472@alumni.ku.dk" class="email">LDJ472@alumni.ku.dk</a>)</li>
+<li>Hold/Teams gruppe 4 : Marcus Piil Pedersen (<a href="mailto:XWP674@alumni.ku.dk" class="email">XWP674@alumni.ku.dk</a>)</li>
+<li>Hold/Teams gruppe 5 : Josva Engmose Jensen (<a href="mailto:RPH452@alumni.ku.dk" class="email">RPH452@alumni.ku.dk</a>)</li>
+<li>Hold/Teams gruppe 6 : Mark Bech Knudsen (<a href="mailto:WRX638@alumni.ku.dk" class="email">WRX638@alumni.ku.dk</a>)</li>
+<li>Hold/Teams gruppe 7 : Mathias Petersen (<a href="mailto:TNW212@alumni.ku.dk" class="email">TNW212@alumni.ku.dk</a>)</li>
 </ul>
 <hr />
 </div>
 <div id="skema-ugestruktur" class="section level2">
 <h2>Skema / Ugestruktur</h2>
-<p><strong>Denne information er opdateret fredag d. 28/8-2020 på baggrund af den endelige tildeling af lokaler. Bemærk at skemaet i første omgang gælder for kursusuge 1-3.</strong></p>
+<p><strong>Denne information er opdateret fredag d. 28/8-2020 på baggrund af den endelige tildeling af lokaler. Bemærk at skemaet i første omgang gælder for kursusuge 1-3.</strong></p>
 <p>Mandag</p>
 <ul>
 <li>13:00-14:45: live-streamet undervisning af Anders Tolver via Zoom</li>
@@ -328,7 +434,7 @@ Som udgangspunkt forestiller jeg mig, at hver undervisningsuge vil bestå af
 <p>Beregninger gennemføres i simple tilfælde med lommeregner, men som hovedregel ved brug af det statistiske program R - også ved eksamen.</p>
 <hr />
 </div>
-<div id="forudstninger" class="section level2">
+<div id="forudsætninger" class="section level2">
 <h2>Forudsætninger</h2>
 <p>Kurset forudsætter kurset Matematik og databehandling eller lignende. Specifkt forudsættes kendskab til R, således at vi ikke starter forfra med R. Hvis din baggrund er anderledes således at du ikke kender R, må du insdstille dig på ekstra arbejde i starten af kurset.</p>
 <hr />
@@ -356,14 +462,14 @@ Som udgangspunkt forestiller jeg mig, at hver undervisningsuge vil bestå af
 </ul>
 <hr />
 </div>
-<div id="forelsninger" class="section level2">
+<div id="forelæsninger" class="section level2">
 <h2>Forelæsninger</h2>
 <p>Forelæsningerne bliver ikke en slavisk gennemgang af stoffet i bogen. Jeg vil i stedet forsøge at fokusere på ideer, fortolkninger, praksis og forståelse.</p>
 <p>Der vil være derfor være mange ting i bogen, der ikke bliver gennemgået. Det betyder ikke at de ikke er vigtige, og I forventes at læse dem selv derhjemme. I er altid velkomne til at stille spørgsmål til dem.</p>
 <p>Ved forelæsningerne benyttes forelæsningsslides der gøres tilgængelige umiddelbart før forelæsningen. Desuden vil alle forelæsninger bliver livestreamet og optagelser af forelæsningen vil blive lagt ud på Absalon / kursushjemmesiden. Udgangspunktet er, at man <em>møder op</em> til forelæsninger og er tilstede live enten fysisk eller online. De må regnes som en ekstraordinær service, at forelæsningerne optages, og der kan være praktiske eller didaktiske årsager til, at jeg vælger at lægge optagelser af forelæsninger med en vis forsinkelse.</p>
 <hr />
 </div>
-<div id="velsestimer" class="section level2">
+<div id="øvelsestimer" class="section level2">
 <h2>Øvelsestimer</h2>
 <p>Ved øvelsestimerne sidder I og regner de opgaver der er annonceret på ugeplanen. Der er instruktorer der kan hjælpe jer, og I er velkomne til at spørge om alt hvad der har med kurset at gøre. Enkelte opgaver vil blive gennemgået ved tavlen eller online til alle på holdet, hvis der er behov.</p>
 <p>Der vil ikke være tid til at regne alle opgaver i løbet af øvelsestimerne, og de vil ikke alle blive gennemgået. Resten er hjemmearbejde, og det er dit eget ansvar at få fulgt op på opgaverne.</p>
@@ -385,7 +491,7 @@ Som udgangspunkt forestiller jeg mig, at hver undervisningsuge vil bestå af
 </ul>
 <hr />
 </div>
-<div id="r-programmer-og-datast" class="section level2">
+<div id="r-programmer-og-datasæt" class="section level2">
 <h2>R programmer og datasæt</h2>
 <p>Det er et vigtigt element i undervisningen, at du selv lærer at bruge det statistiske program R til at lave statistiske beregninger.</p>
 <p>R og RStudio vil blive benyttet på kurset, dels til egentlig datanalyse og dels til små simulationsstudier. R er et statistikprogram, RStudio er en brugergrænseflade som gør arbejdet med R (endnu) mere behageligt.</p>
@@ -496,6 +602,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
