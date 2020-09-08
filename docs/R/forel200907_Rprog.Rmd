@@ -96,7 +96,6 @@ Kommentarer
 
 * Den naturlige reaktion på figuren bør være, at *det var godt nok imponerede så flot normalfordelingen ligner (dvs. approksimerer) histogrammet*.
 
-
 ***
 
 ## Beregning af sandsynligheder og fraktiler i en normalfordeling
