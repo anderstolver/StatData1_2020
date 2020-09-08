@@ -190,7 +190,7 @@ qqnorm(mean_toy, main="Legetoejspopulation")
 abline(mean(mean_toy), sd(mean_toy), lwd = 3, col = "red")
 ```
 
-**Konklusion:** Vi ser at gennemsnit for en stikprøve af størrelse 10 i langt bedre grad kan beskrives ved en normalfordeling, en hvis vi betragter de enkelte (176) målinger. Det er bestemt ikke lige så pænt, som da vi betragtede højdemåingerne for kvinder på StatData1  i 2017. Vi bør dog huske på, at vi i praksis interesserer os for gennemsnittet af indtægten fra studiejob i hele populationen af studerende, og at vi i praksis beregner et gennemsnit af 176 målinger (modsat kun 10 i stikprøverne i legetøjseksperimentet). Vi kan derfor regne med, at vores gennemsnit af 176 målinger vil ligne en normalfordeling endnu mere end de to figurer fra legetøjseksperimentet.
+**Konklusion:** Vi ser at gennemsnit for en stikprøve af størrelse 10 i langt bedre grad kan beskrives ved en normalfordeling, en hvis vi betragter de enkelte (176) målinger. Det er bestemt ikke lige så pænt, som da vi betragtede højdemåingerne for kvinder på StatData1  i 2017. Vi bør dog huske på, at vi i praksis interesserer os for gennemsnittet af transporttiden til Campus i hele populationen af studerende, og at vi i praksis beregner et gennemsnit af 176 målinger (modsat kun 10 i stikprøverne i legetøjseksperimentet). Vi kan derfor regne med, at vores gennemsnit af 176 målinger vil ligne en normalfordeling endnu mere end de to figurer fra legetøjseksperimentet.
 
 
 Således oplyst vover vi pelsen og bruger alligvel formlen fra lærebogens kapitel 5.3 til at beregne et 95 % konfidensinterval for den gennemsnitlige transporttid til campus for populationen af alle studerende.
@@ -299,7 +299,7 @@ abline(mean(dat1$figur1), sd(dat1$figur1), col="red")
 hist(dat1$figur1)
 ```
 
-**Vigtigt:** Som beskrevet detaljeret i eksemplet ovenfor med indtægter fra studiejob, så *kan den centrale grænseværdisætning ofte redde os* når vi blot interesserer os for at estimere gennemsnittet i et population: gennemsnit af mange målinger vil ofte være approksimativt normalfordelte, så det beregnede konfidensintervallet for gennemsnittet er sikkert fornuftigt nok.
+**Vigtigt:** Som beskrevet detaljeret i eksemplet ovenfor med transporttid til Campus, så *kan den centrale grænseværdisætning ofte redde os* når vi blot interesserer os for at estimere gennemsnittet i et population: gennemsnit af mange målinger vil ofte være approksimativt normalfordelte, så det beregnede konfidensintervallet for gennemsnittet er sikkert fornuftigt nok.
 
 Dog kan man med rette diskutere, om middelværdien/gennemsnittet i populationen er et relevant mål for centrum i fordelingen, når fordelingen er så skæv som på histogrammet (se eventuelt diskussionen i lærebogens kapitel 1.4.4).
 
