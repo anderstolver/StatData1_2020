@@ -1,5 +1,5 @@
 ---
-title: 'StatData1: forel190930'
+title: 'StatData1: forel200928'
 author: "Anders Tolver"
 output:   
   html_document:
@@ -26,7 +26,7 @@ Formålet med eksemplet er at illustrere
 
 ## Indlæsning og visualisering af data
 
-Datasættet `eels` ligger is `isdals` R-pakken
+Datasættet `eels` ligger i `isdals` R-pakken
 
 ```{r}
 library(isdals)
