@@ -134,7 +134,7 @@ Specielt kan vi af outputtet læse
 
 Vi bliver ikke nødvendigvis så meget klogere af tallene ovenfor, fordi det kan være svært at vurdere, hvad det egentlig betyder, at `log(Girth)` øges med 1. En mulig fortolkning er dog følgende
 
-* Hvis `Girth` bliver dobbelt så stor, så øges `log(Girth)` med `log(2)`=0.693, og så øges medianen for `Volume` med en faktor `exp(0.693*1.983)`=3.95. I grove træk vil en fordobling af diameteren (`Girth`) altså modsvares af en fordobling af medianen for `Volume` (hvis ellers højden er uændret).
+* Hvis `Girth` bliver dobbelt så stor, så øges `log(Girth)` med `log(2)`=0.693, og så øges medianen for `Volume` med en faktor `exp(0.693*1.983)`=3.95. I grove træk vil en fordobling (x 2) af diameteren (`Girth`) altså modsvares af en firdobling (x 4) af medianen for `Volume` (hvis ellers højden er uændret).
 
 ### Modelkontrol
 
