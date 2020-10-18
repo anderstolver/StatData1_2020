@@ -320,7 +320,9 @@ $(document).ready(function () {
     <li>
       <a href="slides/sd1_forel201007_handout.pdf">7/10-2020</a>
     </li>
-    <li class="dropdown-header">19/10-2020</li>
+    <li>
+      <a href="slides/sd1_forel201019_handout.pdf">19/10-2020</a>
+    </li>
     <li class="dropdown-header">21/10-2020</li>
     <li class="dropdown-header">26/10-2020</li>
   </ul>
@@ -376,6 +378,7 @@ $(document).ready(function () {
 <li><a href="#uge-4">Uge 4</a></li>
 <li><a href="#uge-5">Uge 5</a></li>
 <li><a href="#uge-6">Uge 6</a></li>
+<li><a href="#uge-7">Uge 7</a></li>
 </ul></li>
 </ul>
 </div>
@@ -537,6 +540,32 @@ $(document).ready(function () {
 <li><p>R-program fra forelæsning d. 5/10-2020: <a href="R/forel201005_Rprog.html">output</a> - <a href="R/forel201005_Rprog.Rmd">R Markdown</a></p></li>
 <li><p>R-program fra forelæsning d. 7/10-2020: <a href="R/forel201007_Rprog.html">output</a> - <a href="R/forel201007_Rprog.Rmd">R Markdown</a></p></li>
 </ul>
+</div>
+<div id="uge-7" class="section level2">
+<h2>Uge 7</h2>
+<ul>
+<li>Ved undervisningen i uge 7 talte vi bl.a. om R kommandoerne
+<ul>
+<li><code>dbinom(), pbinom()</code>: til beregning af sandsynligheder for en binomialfordelt variabel Y</li>
+<li><code>prop.test()</code>: til beregning af <em>forbedret</em> konfidensinterval for sandsynlighedsparameteren p i en binomialfordeling</li>
+<li><code>binom.test()</code>: til at teste en hypotese <span class="math inline">\(H_0: p = p_0\)</span> om parameteren i en binomialfordeling</li>
+<li><code>prop.test()</code>: til beregning af konfidensinterval for forskellen mellem sandsynligheder i to binomialfordelinger (eng: <em>differences between proportions</em>) <!--
+  - `chisq.test()`: til at lave et simpelt *goodness-of-fit test* (test for specikke sandsynligheder) i en antalstabel med 2 eller flere kategorier/grupper)
+  - `chisq.test( ..., correct = ...), prop.test(..., correct = ...)`: til at sammenligne antalstabeller med to grupper fra 2 populationer (med eller uden kontinuitetskorrektion)
+  - `chisq.test()`: til at sammenligne antalstabeller med 2 eller flere grupper fra 2 eller flere populationer
+  - `chisq.test()`: til at lave uafhængighedstest mellem to inddelingskriterier når observationer fra 1 population krydstabelleres i en r x k antalstabel
+  - `pchisq()`: til at beregne p-værdier ud fra $\chi^2$-fordelte teststørrelser
+--></li>
+</ul></li>
+<li>R-program fra forelæsning d. 19/10-2020: <a href="R/forel201019_Rprog.html">output</a> - <a href="R/forel201019_Rprog.Rmd">R Markdown</a> <!--
+* R-program fra forelæsning d. 21/10-2020: [output](R/forel201021_Rprog.html) - [R Markdown](R/forel201021_Rprog.Rmd)
+--></li>
+</ul>
+<!--
+## Uge 8
+
+* R-program fra forelæsning d. 28/10-2019: [output](R/forel191028_Rprog.html) - [R Markdown](R/forel191028_Rprog.Rmd)
+-->
 </div>
 </div>
 
