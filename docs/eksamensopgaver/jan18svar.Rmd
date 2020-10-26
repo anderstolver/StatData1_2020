@@ -1,0 +1,209 @@
+---
+title: "Statistisk Dataanalyse 1, januar 2018"
+author: "Helle Sørensen"
+date: "Vejledende besvarelse"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Nedenstående er en vejledende besvarelse. Besvarelsen inkluderer også R-kode og R-output, men det vil en eksamensbesvarelse naturligvis ikke gøre.
+
+## Opgave 1
+
+```{r}
+library(readxl)
+setwd("~/Teaching/Courses/StatDat1/Eksamen/Jan2018")
+ssData1 <- read.table("ss2017-18.txt", header=TRUE)
+ssData2 <- read_excel("~/Teaching/Courses/StatDat1/Eksamen/Jan2018/ss2017-18.xlsx")
+```
+
+#### Spørgsmål 1.1
+
+Det er naturligt at bruge en tosidet ANOVA eftersom begge forklarende variable (studie og køn) er kategoriske. 
+
+R-koden til de to ønskede modeller er
+```{r}
+model1 <- lm(figur2 ~ studie + kon + studie*kon, data=ssData2)
+model2 <- lm(log(figur2) ~ studie + kon + studie*kon, data=ssData2)
+```
+
+Fra _summary_ fra de to modeller (ikke vist) kan man aflæse 
+residualspredningen til 73.71 i modellen med _figur2_ som respons og til 0.4342 i modellen med _log(figur2)_ som respons.
+
+```{r, eval=FALSE, include=FALSE}
+summary(model1)
+summary(model2)
+```
+
+#### Spørgsmål 1.2
+
+Nedenfor ses residualplot og QQ-plot for standardiserede residualer for de to modeller.
+
+```{r, fig.height=6, fig.width=6}
+par(mfrow=c(2,2))
+plot(fitted(model1), rstandard(model1), main="Model 1. Respons: figur2")
+abline(h=0, lty=2)
+qqnorm(rstandard(model1), main="Model 1. Respons: figur 2")
+abline(0,1, lty=2)
+
+plot(fitted(model2), rstandard(model2), main="Model 2. Respons: log(figur2)")
+abline(h=0, lty=2)
+qqnorm(rstandard(model2), main="Model 2. Respons: log(figur2)")
+abline(0,1, lty=2)
+```
+
+* Modellen med _figur2_ som respons: QQ-plottet udviser kraftig afvigelse fra den rette linie. Der er fx en del residualer der er alt for store i forhold til det forventede (dette ses også i residualplottet). Bortset fra disse store residualer, udviser residualplottet nogenlunde symmetri (godt) og ikke tydelige tegn på variansinhomogenitet.
+
+* Modellen med _log(figur2)_ som respons: QQ-plottet ser meget bedre ud selvom der stadig er en del residualer der er større end man ville forvente. Residualplottet viser fin symmetri og ingen klare tegn på variansinhomogenitet.
+
+* Udfra ovenstående fremgår det at modellen med _log(figur2)_ klart er at foretrække.
+
+#### Spørgsmål 1.3
+
+Vi skal teste hypotese om at der ikke er vekselvirkning mellem køn og studie. Vi fitter derfor modellen uden vekselvirkning og sammenligner de to modeller med et $F$-test: 
+
+```{r}
+model3 <- lm(log(figur2) ~ studie + kon, data=ssData2)
+anova(model3, model2)
+```
+
+Vi får $F=2.62$ og $p$-værdien 0.076. Vi forkaster således _ikke_ hypotesen: Der er ikke evidens for vekselvirkning i data. Ingen vekselvirkning betyder at forskellen mellem mænd og kvinder i forventet værdi af _log(figur2)_  er ens for de tre studier (eller omvendt at forskellen mellem studierne ikke afhænger af kønnet).
+
+#### Spørgsmål 1.4
+
+```{r}
+summary(model3)
+confint(model3)
+```
+
+Referencegruppen for køn er kvinder, og referencegruppen for studier er aktuar, så interceptet svarer til kvindelige aktuarstuderende. Estimatet for forventet værdi af _log(figur2)_ for kvindelige aktuarstuderende estimeres således til 
+4.828 med 95% konfidensinterval (4.675 , 4.981).
+
+Der er 142 punkter i plottet, og log(142) = 4.956. Denne værdi ligger lige netop indenfor konfidensintervallet, så de kvindelige aktuarstuderende gætter altså ikke signifikant for højt.
+
+#### Spørgsmål 1.5
+
+Den forventede forskel mellem kvinder og mænd i forventet værdi af _log(figur2)_ estimeres til 0.2117.
+
+Dette svarer til at kvinder gætter en faktor $e^{0.2117}=1.24$ højere end mænd. 
+
+Hypotesen om at der ikke er forskel er mænd og kvinders gæt, giver $p$-værdien 0.0016, så der _er_ signifikant forskel på mænd og kvinder. Altså: Kvindeer gætter højere end mænd.
+
+#### Spørgsmål 1.6
+
+Hypotesen er at studerende fra alle tre studier har samme forventede værdi af _log(figur2)_. Vi fitter modellen uden effekt af studie og sammenligner de to modeller. Dette giver $p$-værdien 0.91, så hypotesen kan ikke forkastes. Der er altså ikke tegn på forskel mellem studieretningerne.
+
+```{r}
+model4 <- lm(log(figur2) ~ kon, data=ssData2)
+anova(model4, model3)
+```
+
+## Opgave 2
+
+```{r}
+library(readxl)
+setwd("~/Teaching/Courses/StatDat1/Eksamen/Jan2018")
+johnsonData1 <- read.table("johnson-fatpct.txt", header=TRUE)
+johnsonData2 <- read_excel("~/Teaching/Courses/StatDat1/Eksamen/Jan2018/johnson-fatpct.xlsx")
+```
+
+#### Spørgsmål 2.1
+
+Det er mest naturligt at benytte maveomkreds som forklarende variabel ($x$) og fedtprocent som responsvariabel ($y$). Den tilhørende tegning er vist nedenfor. 
+
+Sammenhængen ser ud til at være lineær, så vi vil bruge en lineær regressionsmodel:
+$$
+   \text{bodyfat}_i = \alpha + \beta \cdot \text{abdomen}_i + e_i
+$$
+hvor $e_1,\ldots,e_{243}$ er uafhængige og $N(0,\sigma^2)$-fordelte.
+```{r, fig.height=4, fig.width=4}
+plot(bodyfat ~ abdomen, data=johnsonData2)
+```
+
+#### Spørgsmål 2.2
+
+Modellen fittes med _lm_ og estimaterne fås med _summary_. Vi får
+$$
+   \hat\alpha = -37.65, \quad
+   \hat\beta = 0.6126, \quad
+   \hat\sigma= 4.301
+$$
+Betragt to mænd med maveomkreds på 110 cm hhv.\ 100 cm. Forskellen i maveomkreds er 10 cm, så den forventede forskel i fedtprocent er $10\cdot \beta$, der estimeres til 6.126.
+
+_NB:_ Det er naturligvis fint at beregne estimaterne for hver af de to mænd (29.737 hhv.\ 23.611) og trække dem fra hinanden. 
+
+```{r}
+linreg <- lm(bodyfat ~ abdomen, data=johnsonData2)
+summary(linreg)
+```
+
+#### Spørgsmål 2.3
+
+Lineær regression hvor hofteomkredsen er den eneste forklarende variabel: Regressionskoefficienten estimeres til 0.726.
+
+Multipel lineær regression med både maveomkred og hofteomkreds som forklarende variable: Regressionskoefficienten hørende til hofteomkreds estimeres til -0.3318. 
+
+I modellen hvor hofte er eneste forklarende variabel, er regressionskoefficienten positiv svarende til at større hofteomkreds og højere fedtprocent typisk hører sammen.
+I den multiple regression er regressionskoefficienten hørende til hofteomkreds negativ. Dette betyder at _for givet maveomkreds_ hører større hofteomkreds typisk sammen med lavere fedtprocent. 
+
+Hvis man betragter en mand med en given maveomkreds vil en stor hofteomkreds tyde på at manden er stor (uden nødvendigvis at være tyk), mens en lille hofteomkreds vil tyde på at manden er tyk. Dette argument holder kun for mænd, hvorimod kvinder med høj fedtprocent typisk også vil være store om hofterne. 
+
+```{r}
+lm(bodyfat ~ hip, data=johnsonData2)
+lm(bodyfat ~ abdomen + hip, data=johnsonData2)
+```
+
+
+#### Spørgsmål 2.4
+
+Konfidensintervallet beregnes til (12.92 , 14.43), og prædiktionsintervallet beregnes til (5.43 , 21.92).
+Eftersom værdien 17 ligger i prædiktionsintervallet, er det ikke en usædvanlig værdi.
+
+```{r}
+newData <- data.frame(abdomen=85, hip=98)
+multipel <- lm(bodyfat ~ abdomen + hip, data=johnsonData2)
+predict(multipel, newData, interval="c")
+predict(multipel, newData, interval="p")
+```
+
+## Opgave 3
+
+#### Spørgsmål 3.1
+
+Stikprøverne fra 2012 og 2017 er parrede fordi de stammer fra de samme plantearter (ikke 73 plantearter det ene år og 73 andre plantearter det andet år).
+
+Vi analyserer således forskellen som en enkelt stikprøve. Estimatet for den forventede forskel er lig gennemnittet, dvs. 3.3536, og et 95% konfidensintervalt beregnes til 
+$$
+  \bar y \pm t_{0.975,72} \cdot \frac {s}{\sqrt{73}} = 3.3536 \pm 1.993 \cdot \frac{8.3039}{\sqrt{73}} =
+  3.3536 \pm 1.9375 = (1.4161\, , \, 5.2910)
+$$
+
+#### Spørgsmål 3.2
+
+Vi udfører et uafhængighedstest. Hypotesen er at udbredelse og fredning er uafhængige. 
+
+Med _chisq.test_ får vi $X^2 = 9.41$ og p-værdien 0.0022 (og $X^2=7.96 og p-værdien 0.0048 hvis vi laver kontinuitetskorrektion). Vi afviser således hypotesen og konkluderer at fredning og udbredelse ikke er uafhængige.
+
+
+```{r}
+A <- matrix(c(18,15,8,32), 2,2)
+A
+chisq.test(A, correct=FALSE)
+chisq.test(A)
+```
+
+
+#### Spørgsmål 3.3
+
+De estimerede betingede sandsynligheder beregnes udfra tabellen:
+
+\begin{align*}
+  P(\text{udbredelse vokset}\, | \, \text{fredet}) = \frac{32}{40}= 0.8\\
+  P(\text{udbredelse vokset}\, | \, \text{ikke fredet}) = \frac{15}{33} = 0.454
+\end{align*}
+
+Fredning fremmer således udbredelsen (og dette er statistisk signifikant jf. spørgsmål 3.2).  
+  

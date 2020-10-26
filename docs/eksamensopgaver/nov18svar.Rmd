@@ -1,0 +1,275 @@
+---
+title: "Statistisk Dataanalyse 1"
+author: "Helle Sørensen"
+date: "Vejledende besvarelse, eksamen november 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Dette er en vejledende besvarelse, incl. den R-kode jeg har benyttet med tilhørende output. En besvarelse behøver ikke inkludere R-kode og -output medmindre der er bedt eksplicit om det. Jeg har desuden givet korte forklaringer til opgave 3 (multiple choice) hvilket ikke er muligt ved eksamen.
+
+## Opgave 1
+
+Vi indlæser allerførst data fra en af filerne:
+
+```{r}
+library(readxl)
+sooer <- read_excel("~/Teaching/Courses/StatDat1/Eksamen/Nov2018/soeer.xlsx")
+sooer2 <- read.table("~/Teaching/Courses/StatDat1/Eksamen/Nov2018/soeer.txt", header=TRUE)
+```
+
+
+#### Spørgsmål 1.1
+
+Vi er interesseret i eventuelle forskelle i fosforindholdet mellem de fem områder. Vi skal derfor bruge fosforindholdet, dvs. _fosfor_ som respons og områdevariablen, dvs. _sted_, som forklarende variabel. Da _fosfor_ er kvantitativ og _sted_ er kategorisk svarer dette til en ensidet ANOVA.
+
+Hvis datasættet kaldes **sooer**, så er de relevante `lm`-kommandoer følgende (hvor vi også har givet modellerne navne):
+
+```{r}
+model1 <- lm(Fosfor ~ Sted, data=sooer)
+model2 <- lm(log(Fosfor) ~ Sted, data=sooer)
+```
+
+#### Spørgsmål 1.2
+
+Nedenfor ses residualplot og QQ-plots for hver af de to modeller. Koden er ikke vist i output, men kan ses i Rmd-filen. 
+
+Kommentarer:
+
+* For _model1_ (før transformation) er begge plots stærkt problematiske: Residualplottet viser at der er langt større spredning for områder med store værdier end for områder med små værdier, og faktisk også at fordelingen for nogle af områderne er meget skæv. Punkterne i QQ-plottet ligger ikke omkring en ret linie, så residualerne er ikke normalfordelte.
+
+* For _model2_ (efter transformation) ser begge figurer langt bedre ud: Der er nogenlunde samme grad af variation for alle fem grupper, og punkterne i residualplottet ligger nogenlunde omkring den rette linie med skæring 0 og hældning 1.
+
+Det er derfor helt oplagt at _model2_, hvor data er log-transformere er bedre til at beskrive fordelingen af data.
+
+```{r, echo=FALSE, fig.height=9, fig.width=9}
+par(mfrow=c(2,2))
+plot(fitted(model1), rstandard(model1), main="model1: Før transf.")
+abline(h=0, lty=2)
+qqnorm(rstandard(model1), main="model1: Før transf.")
+abline(0,1, lty=2)
+
+plot(fitted(model2), rstandard(model2), main="model2: Efter transf.")
+abline(h=0, lty=2)
+qqnorm(rstandard(model2), main="model2: Efter transf.")
+abline(0,1, lty=2)
+```
+
+#### Spørgsmål 1.3
+
+Hypotesen er at den forventede log-fosforkoncentration er den samme for alle fem områder. Den kan fx testes vha. `drop1`
+(vist nedenfor) eller ved at fitte modellen uden områdeeffekt og sammenligne de to modeller med `anova` (prøv selv!). 
+
+Under alle omstændigheder få en forsvindende lille p-værdi (<2.2e-16). Hypotesen forkastes derfor meget klart, og vi har med stor sikkerhed påvist at der er forskel mellem de fem områder hvad angår fosforkoncentrationen. 
+
+```{r}
+drop1(model2, test="F")
+```
+
+Konklusionen er ikke særligt overraskende hvis man betragter boxplots over data, enten på oprindelig skala eller log-skala. Bemærk dog at der ikke er bedt om disse plots i opgaven.
+
+```{r, echo=FALSE, fig.height=4.5, fig.width=9}
+par(mfrow=c(1,2))
+boxplot(Fosfor ~ Sted, data=sooer)
+boxplot(log(Fosfor) ~ Sted, data=sooer)
+```
+
+
+#### Spørgsmål 1.4
+
+Estimater og 95% konfidensintervaller for forventet log-koncentration for Blekinge og Skåne.
+
+* Blekinge: Dette er referencegruppen, og vi aflæser estimatet til 2.568 og 95% KI til (2.430 , 2.707)
+
+```{r}
+summary(model2)$coefficients
+confint(model2)
+```
+
+
+* Skåne: Estimatet beregnes til  2.568 + 0.794 = 3.362. Konfidensintervallet er lidt sværere: Man kan enten skifte referencegruppe vha. `relevel` (se nedenfor) eller benytte at SE for estimatet er givet ved
+$$
+   \text{SE} = \frac{s}{\sqrt{n_{\text{Skåne}}}} = \frac{0.8478}{\sqrt{112}} = 0.0801
+$$
+Her har vi benyttet at der er 112 søer fra Skåne (se output fra `table` nedenfor). 95% konfidensintervallet bliver så
+$$
+   3.362 \pm 1.962 \cdot 0.0801 = (3.205\, , \, 3.519)
+$$
+hvor 1.962 er 97.5% fraktilen i $t$-fordelingen med 1242 - 5 = 1237 frihedsgrader. 
+
+```{r}
+# Manuelt
+est <- 2.5682349 + 0.7940588
+est
+table(sooer$Sted)
+SE <- 0.8478 / sqrt(112)
+SE
+qt(0.975, df=1237)
+est - qt(0.975, df=1237) * SE
+est + qt(0.975, df=1237) * SE
+
+# Med relevel:
+sooer <- transform(sooer, Sted3 = relevel(factor(Sted), ref="Skaane"))
+model3 <- lm(log(Fosfor) ~ Sted3, data=sooer)
+confint(model3)
+```
+
+#### Spørgsmål 1.5
+
+Estimat og 95% konfidensinterval for forskellen mellem Blekinge og Skåne på log-skala aflæses direkte fra den oprindelige model til 
+$$
+   \text{estimat}:\ 0.7941, \quad 95\%\ \text{KI}:\  (0.5845\, , \, 1.0036)
+$$
+Bemærk at den forventede værdi er højere i Skåne end i Blekinge.
+
+Ovenstående er den absolutte forskel på log-skala. Hvis vi tager eksponentialfunktionen til estimatet og  grænserne i KI, får vi i stedet estimat og 95% KI for den faktor som fosforkoncentationen er højere i Skåne i forhold til Blekinge:
+$$
+   \text{estimat for faktor}:\ 2.212, \quad 95\%\ \text{KI for faktor}:\  (1.794\, , \, 2.728)
+$$
+```{r}
+exp(0.79406)
+exp(0.58451421)
+exp(1.0036035)
+```
+
+#### Spørgsmål 1.6
+
+Hypotesen er at de forventede værdier for log-koncentration er den samme for Blekinge, Skåne og Småland. 
+
+Hypotesen testes ved (i) at lave en ny kategorisk variabel der har et fælles niveau for de tre svenske områder, men stadig forskellige niveauer for Jylland Østdanmark, (ii) at benytte den nye variabel som forklarende variabel i en ny ensidet ANOVA, og (iii) sammenligne de en nye og den oprindelige model med et F-test vha. funktionen `anova`. Dette giver mening fordi de to modeller er nestede.
+
+F-testet giver p-værdien 5.675e-13, så hypotesen forkastes. Det er meget klart påvist at der er forskel på niveauet af log-fosforkoncentrationen i de tre svenske områder.  
+
+```{r}
+Sted4 <- sooer$Sted
+Sted4[Sted4 == "Blekinge"] <- "Sverige"
+Sted4[Sted4 == "Smaaland"] <- "Sverige"
+Sted4[Sted4 == "Skaane"] <- "Sverige"
+table(Sted4)
+
+model4 <- lm(log(Fosfor) ~ Sted4, data=sooer)
+anova(model4, model2)
+```
+
+Eftersom man i spørgsmålet eksplicit bliver bedt om at benytte hele datasættet, gives der ikke fuldt pointtal hvis man i stedet har testet hypotesen ved kun at benytte data fra de svenske områder - men det er bestemt ikke en dum ting at gøre. 
+
+De to danske områder er i øvrigt også forskellige (p=2.157e-06).
+
+
+## Opgave 2
+
+Vi indlæser først data fra en af filerne:
+
+```{r}
+library(readxl)
+elections <- read_excel("~/Teaching/Courses/StatDat1/Eksamen/Nov2018/elections.xlsx")
+elections2 <- read.table("~/Teaching/Courses/StatDat1/Eksamen/Nov2018/elections.txt", header=TRUE)
+```
+
+#### Spørgsmål 2.1
+
+Den lineære regressionsmodel er
+$$
+  \text{expenditures}_i = \alpha + \beta \cdot \text{approval}_i + e_i, \quad i=1,\ldots,15
+$$
+hvor $e_1,\ldots,e_{15}$ er iid $N(0,\sigma^2)$-fordelte. 
+
+Vi fitter modellen og tester hypotesen $H_0:\beta_0$. Vi får p-værdien 0.0011, så hypotesen afvises. Vi har med andre ord påvist at en sammenhæng mellem popularitet og kampagneudgifter. Estimatet for $\beta$ er negativt, så mere populær kandidaten er ved valgkampens start, jo mindre mindre bruger han/hun på kampagnen - hvilket jo giver god mening.
+
+```{r}
+linreg <- lm(expenditures ~ approval, data=elections)
+summary(linreg)$coefficients
+```
+
+#### Spørgsmål 2.2
+
+Vi fitter den multiple regressionsmodel med koden givet i opgaven og får følgende estimerede sammenhæng:
+\vspace*{-0.5cm}
+\begin{align*}
+  \text{performance} &= \hat\alpha + \hat\beta_1 \cdot \text{approval} + \hat\beta_2 \cdot \text{expenditures} \\&= 
+  0.1279 + 0.7986 \cdot \text{approval} + 0.0994\cdot \text{expenditures}
+\end{align*}
+Residualspredningen estimeres til 0.0464.
+
+```{r}
+multipel <- lm(performance ~ approval + expenditures, data=elections)
+summary(multipel)
+```
+
+#### Spørgsmål 2.3
+
+Estimatet hørende til `expenditures` er $\hat\beta_2=0.0994$. Enheden for `expenditures` er 1000 dollars, så vi har følgende fortolkning: Hvis to siddende borgmestre (A og B) er lige populære ved kampagnens start, og kandidat A bruger 1000 dollars mere end kandidat B på kampagnen, så vil man forvente at kandidat A får 0.0994 procentpoint flere stemmer end kandidat B. 
+
+Vi tester så hypotesen om at det ikke hjælper på valgresultatet at øge kampagneudgifterne, dvs. hypotesen $H_0:\beta_2=0$. Vi aflæser p-værdien til <2e-16 så der er overvældende evidens for at det hjælpe at øge kampagneudgifterne. 
+
+#### Spørgsmål 2.4
+
+Der er tale om prædiktion af en ny observation, så vi beregner et et 95% prædiktionsinterval svarende til at `approval=40` og `expenditures=110`. 
+
+Vi får prædiktionsintervallet (42.9 , 43.1), så dette er intervallet som med sandsynlighed 95% vil indeholde det nye valgresultat. 
+
+```{r}
+newData <- data.frame(approval=40, expenditures=110)
+predict(multipel, newData, interval="p")
+```
+
+## Opgave 3
+
+#### Spørgsmål 3.1: E
+
+Vi antager at $Y\sim N(1060, 195^2)$ beregner sandsynligheden $P(Y<880)$.
+
+```{r}
+pnorm(880, mean=1060, sd=195)
+```
+
+#### Spørgsmål 3.2: A
+
+Vi skal bruge 75% fraktilen i $N(1060, 195^2)$-fordelingen.
+
+```{r}
+qnorm(0.75, 1060, 195)
+```
+
+#### Spørgsmål 3.3: F
+
+Hypotesen om uafhængighed afvises, dvs.\ der er evidens for at der er en sammenhæng.
+
+```{r}
+tabel <- matrix(c(44,5,32,19),2,2)
+tabel
+chisq.test(tabel, correct=FALSE)
+```
+
+#### Spørgsmål 3.4: D
+
+Hvis $Y$ betegner antallet af venstrehåndede i stikprøven, så er $Y\sim \text{bin}(25,0.1)$. Vi beregner $P(Y\leq 4)$.
+
+```{r}
+pbinom(4, size=25, prob=0.1)
+```
+
+#### Spørgsmål 3.5: E
+
+Dosis og metode er begge kategoriske variable og bør begge indgå i modellen. At effekten af dosis ikke afhænger af metoden og at dette ikke skal undersøges nærmere, betyder at vekselvirkningen mellem dosis og metode ikke skal inddrages i modellen.
+
+#### Spørgsmål 3.6: A
+
+En type II fejl består i at man _accepterer en falsk hypotese_. Eftersom hypotesen her er at tilslutningen til Alternativet er uændret, betyder en type II fejl at man konkluderer at tilslutningen er uændret, selvom sandheden er at den _har_ ændret sig. 
+
+#### Spørgsmål 3.7: B
+
+Der er tale om en enkelt normalfordelt stikprøve.
+
+```{r}
+3487 - qt(0.975, df=31) * 443 / sqrt(32)
+3487 + qt(0.975, df=31) * 443 / sqrt(32)
+```
+
+
+#### Spørgsmål 3.8: C
+
+Konfidensintervallet udtaler sig om den forventede værdi, altså om gennemsnittet i populationen (ikke om enkeltpersoner). 

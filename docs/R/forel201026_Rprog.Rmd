@@ -1,5 +1,5 @@
 ---
-title: 'StatData1: forel201026 (version 2)'
+title: 'StatData1: forel201026 (endelig version)'
 author: "Anders Tolver"
 output:   
   html_document:
@@ -57,6 +57,8 @@ KI_low
 ```
 
 **Metode 1:** Få R til at lave KI for middelværdien af forskellene ...
+
+**Bemærk:** Når man (som nedenfor) kun skriver `~ 1` i kaldet til `lm()`, så vil R estimere en model svarende til enstikprøve-problemet. Dvs. en model, hvor alle observationerne har den samme middelværdi.
 
 ```{r}
 one_sample_mod <- lm(lame - healthy ~ 1, data = lameness)
@@ -129,6 +131,8 @@ linreg <- lm(freq ~ temp, data=eels)
 anova(linreg, ensidet)
 ```
 
+**Hvad er det egentlig vi konkluderer på baggrund af testet?** Den lineære regressionsmodel skal opfattes som en mere restriktiv model end den ensidede ANOVA. Dette skyldes at en lineær regressionsmodel her tvinger middelværdierne hørende til de 7 forskellige vandtemperaturer, som er afprøvet i forsøget, til at være givet som en lineær funktion af vandtemperaturen. Vores nulhypotese er den mest restriktive model (her: den lineære regressionsmodel), så når vi får en stor p-værdi på 0.6292 kan vi ikke forkaste nulhypotesen. Der er mao. *ikke* på baggrund af data grund til at afvise, at middelværdien af frekvensen af de udsendte signaler for ålene kunne være givet ved en lineær funktion af vandtemperaturen.
+
 **Log-transformeret respons:** Regn opgave 1 fra eksamen i November 2019. Det vigtigste budskab er, at fortolkningen af estimaterne udtaler sig om medianer, når de regnes tilbage til oprindelig skala vha. eksponentialfunktionen.
 
 **Tænk eventuelt over følgende spørgsmål:**
@@ -137,9 +141,15 @@ Med udgangspunkt i eksemplet med antibiotika og gødning ovenfor:
 
 * hvordan kan man teste om middelværdien af responsen (dvs. indholdet af organisk stof) er ens for `Control`-gruppen og for `Enroflox`-gruppen?
 
+**Svar:** Hvis man kigger på output under `summary(model3)` ovenfor, hvor gruppen `Control` er valgt som reference, så kan svaret umiddelbart aflæses. Forskellen melllem middelværdien i `Enroflox`- og `Control`-gruppen estimeres til 0.10667, og i samme linje aflæses t-teststørrelsen 1.518 og den tilhørende p-værdi på 0.140338. Benyttes et 5 % - signifikans niveau, så kan vi altså *ikke* afvise, at forskellen mellem middelværdien i `Enroflox` og `Control`-grupperne kunne være lig med 0.
+
 * hvordan kan man teste om middelværdien af responsen (dvs. indholdet af organisk stof) er ens for alle antibiotikagrupper (dvs bortset fra `Control`-gruppen)?
 
+**Svar:** Dette test kan udføres som et F-test. Alle detaljerne findes i R-programmet til forelæsningen d. 21/9-2020.
+
 * hvad er antallet af frihedsgrader, og hvordan er dette antal fremkommet?
+
+**Svar:** For en ensidet ANOVA er antallet af frihedsgrader (df = degrees of freedom) givet som antallet af observationer (her: n = 34) minus antallet af grupper (her: k = 6). Formlen er: df = n - k = 34 - 6 = 28. For alle andre modeller fittet med `lm()`-funktionen i R, der gælder samme formel df = n - k, hvor man kan finde k ved at optælle antallet af estimater der optræder under `coefficients`, når man ser på et `summary()` af modellen. 
 
 ## Eksempler på opgaver
 
@@ -175,6 +185,7 @@ newData = data.frame(Bwt = 2.5)
 predict(linreg, newData, interval = "confidence", level = 0.95)
 ```
 
+**Spørgsmål til R-kode ovenfor:** Er der en grund til, at du skriver `newData = data.frame(Bwt = 2.5)` i stedet for `newData <- data.frame(Bwt = 2.5)` i R-koden til beregning af konfidensintervallet ovenfor? ATs svar:  Nej, jeg anbefaler at man bruger `<-` i stedet for `=`. Dette er også gjort ved beregning af prædiktionsintervallet nedenfor.
 
 **Modelkontrol og prædiktionsintervaller:**
 
@@ -204,8 +215,16 @@ predict(linreg, newData, interval = "p")
 **Tænk gerne over følgende:**
 
 * hvordan man tester om der er sammenhæng mellem respons og forklarende variabel i lineær regression (= om hældningen er nul!)
+
+**Svar:** Når man kigger på outputtet fra `summary(linreg)` ovenfor, så kan man direkte finde et t-test for hypotesen om, at hældningen er nul (i datalinjen hørende til `Bwt`).
+
 * hvordan man tester om hældningen har en ganske bestemt værdi (R-program fra 16/9-2020)
+
+**Svar:** Her kan du bruge den generelle formel for, hvordan man kan udføre et t-test, når man kender både standard error (SE) på estimatet og antallet af frihedsgrader. Se detaljerne i R-programmet til 16/9-2020.
+
 * hvordan man tester en lineær regressionsmodel mod fx. en kvadratisk regressionsmodel (R-program fra 28/9-2020)
+
+**Svar:** Denne teknik er vigtig at kende til. Man kan altid teste en lineær regressionsmodel mod en mere fleksibel model (fx. en kvadratisk model). Det er *kun* hvis man har flere målinger for hver værdi af den forklarende variable, at man kan teste en lineær regressionsmodel mod en ensidet ANOVA (som vi gjorde ovenfor i eksemplet med de elektriske ål).
 
 ## Eksempler på opgaver
 
@@ -233,12 +252,23 @@ multipel1 <- lm(Volume ~ Height + Girth, data = trees)
 summary(multipel1)
 ```
 
+Den statistiske model udtrykkes som
+
+$$
+V_i = \alpha + \beta \cdot H_i + \gamma \cdot G_i + e_i,
+$$
+hvor restleddene $e_i$ er uafhængige og normalfordelte $\sim N(0, \sigma^2).$
+Estimatet for parameteren hørende til variablen `Height` (H) er 0.3393. Fortolkningen er at det forventede volumen (V) øges med 0.3393 enheder, når højden (H) øget med 1 enhed.
+
 **Kirsebærtræer (log-transformation):** Kan du opskrive den tilhørende statistiske model og fortolke output nedenfor?
 ```{r}
 multipel2 <- lm(log(Volume) ~ log(Height) + log(Girth)
 , data = trees)
 summary(multipel2)
 ```
+
+Der findes en detaljeret analyse af dette eksempel i R-programmet fra 30/9-2020. Selvom den matematiske fortolkning af modellen her (hvor både respons og forklarene variable log-transformeres) er lidt mere kompleks, så giver eksemplet et godt indblik i fleksibiliteten af klassen af multiple lineære regressionsmodeller.
+
 
 ## Eksempler på opgaver
 
@@ -278,7 +308,7 @@ modelAdd <- lm(Kd ~ Treat + Lokation, data = pestgolf)
 
 *Model med vekselvirkning:* de 6 middelværdier hørende til kombinationer af `Treat` og `Lokation` estimeres helt frit.
 
-*Additive model:* middelværdier hørende til kombinationer af `Treat` og `Lokation` tvinges til at have en *additiv struktur*. Forskellen på estimaterne hørende til `Treat = T04` og `Treat = T05` er den samme, uanset hvilken `Lokation` vi ser på. (Tænk eventuelt på eksempel med isbutik: prisen på guf er den samme uanset antallet af kugler)
+*Additive model:* middelværdier hørende til kombinationer af `Treat` og `Lokation` tvinges til at have en *additiv struktur*. Forskellen på estimaterne hørende til `Treat = T04` og `Treat = T05` er den samme, uanset hvilken `Lokation` vi ser på. (Tænk eventuelt på eksempel med isbutik: prisen på guf er den samme uanset antallet af kugler).
 
 **Test af additiv model mod model med vekselvirkning:** Kan udføres som et F-test af additive model (=nulmodel) mod vekselvirkningsmodel (=fuld model).
 
@@ -302,6 +332,12 @@ Estimatet bliver: 0.848667 + 0.315000 - 0.286000 - 0.264333.
 summary(modelAdd)
 ```
 Estimatet bliver: 0.89411 + 0.22411 -0.41817.
+
+**Yderligere ting der kan aflæses af outputtet fra den additive model:** Vi aflæser desuden at
+
+* den estimerede forskel på sorptionen for `Treat = T05` og `Treat = T04` (indeholdt i reference/Intercept) er 0.22411
+* den estimerede forskel på sorptionen for `Lokation = HONE` og `Lokaltion = DYR` (indeholdt i reference/Intercept) er -0.46350
+* den estimerede forskel på sorptionen for `Lokation = KNY` og `Lokaltion = DYR` (indeholdt i reference/Intercept) er -0.41817
 
 **Test for effekt af `Treat`/ `Lokation`:** Test for hver af de to indgående forklarende variable bør kun foretages, hvis der ikke er vekselvirking (dvs. hvis vi ikke kan forkaste den additive model). Den additive model benyttes som *fuld model* og modellen, hvor en af de to forklarende variable fjernes benyttes som *nulmodel* i et F-test med `anova()`.
 
