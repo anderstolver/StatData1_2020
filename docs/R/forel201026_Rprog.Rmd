@@ -1,5 +1,5 @@
 ---
-title: 'StatData1: forel201026 (foreløbig version)'
+title: 'StatData1: forel201026 (version 2)'
 author: "Anders Tolver"
 output:   
   html_document:
@@ -16,7 +16,7 @@ library(tidyverse)
 
 # Formålet med dette dokument
 
-Formålet med dette dokument er at fremhæve nogle af de centrale statistiske modeller og eksempler, som har været diskuteret i forbindelse med undervisningen i Statistisk Dataanalyse 1 i 2020/2021.
+Formålet med dette dokument er at fremhæve nogle af de centrale statistiske modeller og eksempler, som har været diskuteret i forbindelse med undervisningen i Statistisk Dataanalyse 1 i 2020/2021. Nederst i dokumentet findes en kort opsummering af [resultaterne fra studenterevalueringerne](#evaluering)
 
 Det er vigtigt, at I opnår erfaring med at kunne afkode, hvilken statistisk metode / modelklasse, som er velegnet til at besvare opgaver / delspørgsmål som knytter sig til et konkret datasæt. Hertil kan [modelvalgsdiagrammet](../notater/modeller.pdf) være særlig velegnet. Start med at identificere og afgøre om *responsvariablen* er en kvantitativ / kontinuert variabel eller om der er tale om en antalstabel. Fokuser dernæst på at finde / identificere antallet og datatypen for eventuelle forklarende variable.
 
@@ -109,7 +109,7 @@ summary(model3)
 ```
 
 
-**F-test:** Her vises en metode til at få R til at lave F-testet. Helt ok, hvis du har andre metoder til at producere F-teststørrelsen på.
+**F-test:** Her vises en metode til at få R til at lave F-testet for, om middelværdien kan antages at være ens i alle grupper (her givet ved variablen `type`). Helt ok, hvis du har andre metoder til at producere F-teststørrelsen på.
 
 ```{r}
 ### Test for ens middelværdi i alle grupper kan laves som følger ...
@@ -129,11 +129,21 @@ linreg <- lm(freq ~ temp, data=eels)
 anova(linreg, ensidet)
 ```
 
-**Log-transformeret respons:** Regn opgave 1 fra eksamen i November 2019.
+**Log-transformeret respons:** Regn opgave 1 fra eksamen i November 2019. Det vigtigste budskab er, at fortolkningen af estimaterne udtaler sig om medianer, når de regnes tilbage til oprindelig skala vha. eksponentialfunktionen.
+
+**Tænk eventuelt over følgende spørgsmål:**
+
+Med udgangspunkt i eksemplet med antibiotika og gødning ovenfor:
+
+* hvordan kan man teste om middelværdien af responsen (dvs. indholdet af organisk stof) er ens for `Control`-gruppen og for `Enroflox`-gruppen?
+
+* hvordan kan man teste om middelværdien af responsen (dvs. indholdet af organisk stof) er ens for alle antibiotikagrupper (dvs bortset fra `Control`-gruppen)?
+
+* hvad er antallet af frihedsgrader, og hvordan er dette antal fremkommet?
 
 ## Eksempler på opgaver
 
-Der er rigtig mange tidligere eksamensopgaver om emnet fx. 
+Der er rigtig mange tidligere eksamensopgaver om ensidet ANOVA fx. 
 
 * November 2019, opgave 1 
 * Januar 2020, opgave 1
@@ -157,12 +167,41 @@ library(MASS)
 data(cats)
 linreg <- lm(Hwt ~ Bwt, data = cats)
 summary(linreg)
+```
+Et 95 % - konfidensinterval hørende til en kropsvægt på `Bwt = 2.5` kg vil med 95 % sandsynlighed indeholde *gennemsnittet af (uendelig mange) nye observationer* af hjertevægten, for katte med en kropsvægt på 2.5 kg.
+
+```{r}
 newData = data.frame(Bwt = 2.5)
 predict(linreg, newData, interval = "confidence", level = 0.95)
 ```
+
+
+**Modelkontrol og prædiktionsintervaller:**
+
 R-programmet fra 23/9-2020 gennemgår modelkontrol og prædiktionsintervaller for en lineær regressionsmodel. 
 
-Du kan også arbejde med at forstå følgende:
+Hvad bør man se efter og kommentere på baggrund af et residualplot og et QQ-plot?
+
+```{r}
+### Residualplot med vandret linie i 0
+par(mfrow = c(1, 2)) ### arrangerer de to figurer ved siden af hinanden
+plot(fitted(linreg), rstandard(linreg), pch = 16, xlab = "Predicted values", ylab = "Standardized residuals"
+     , main = "Cats data")
+abline(h = 0, lty = 2)
+### QQ-plot 0/1-linien
+qqnorm(rstandard(linreg), pch = 16, main = "Cats Data")
+abline(0, 1, lwd = 2, col = "red")
+```
+
+Et 95 % - prædiktionsinterval hørende til en kropsvægt på `Bwt = 2.5` kg vil med 95 % sandsynlighed indeholde *en enkelt ny observation* af hjertevægten, for en kat med en kropsvægt på 2.5 kg.
+
+```{r}
+newData <- data.frame(Bwt = 2.5)
+### praediktion og praediktionsinterval
+predict(linreg, newData, interval = "p")
+```
+
+**Tænk gerne over følgende:**
 
 * hvordan man tester om der er sammenhæng mellem respons og forklarende variabel i lineær regression (= om hældningen er nul!)
 * hvordan man tester om hældningen har en ganske bestemt værdi (R-program fra 16/9-2020)
@@ -334,3 +373,47 @@ Desuden snakkede vi om, hvordan man
 
 Der er mange emner og næppe nogen vej uden om at nærstudere slides og R-programmer fra denne uge, hvis du gerne vil være ordentlig forberedt. Husk især at øve på quiz-spørgsmål fra eksamen og quizzer i Absalon, som vedrører denne del af pensum.
 
+# Opsummering på studenterevalueringer {#evaluering}
+
+Omkring 100 ud af 200 studerende på StatData1 valgte at udfylde kursusevalueringerne. Studienævn/ledelse på relevante institutter har adgang til jeres individuelle evalueringer og kommentarer, så alt bliver set. Nedenfor opsummeres resultaterne af multiple choice spørgsmålene i hovedtræk. Du er velkommen til at skrive i chatten eller til at sende mig en email, hvis der er ting, som du mener ikke er med (og som du heller ikke har skrevet i dine individuelle kommentarer).
+
+Hovedtræk fra multiple choice del af evalueringsskemaet:
+
+* Ca. 85 % har arbejdet mellem 10 og 25 timer om ugen med kurset
+
+* Ca. 90 % svarer at niveauet er tilpas (60 %) eller for højt (30 %). Få finder niveauet for lavt eller alt for højt.
+
+* Godt 90 % finder arbejdsbyrden tilpas (60 %) eller for høj (30 %). Få finder arbejdsbyrden for lav eller alt for høj.
+
+* Lidt delte meninger om, hvorvidt I har opnået kompetencerne i kursusmålene: helt uenig (2 %), uenig (14 %), hverken uenig eller uenig (26 %), enig (43 %), helt enig (15 %)
+
+* Godt 85 % finder at der er god sammenhæng ml. forelæsninger, øvelser m.v. Kun 5 % er decideret uenige.
+
+* Godt 75 % finder at undervisningsmaterialet var relevant. Ca. 10 % er decideret uenige i dette.
+
+* Ca. 68 % er tilfredse med skriftlig og mundtlige feedback. Knap 20 % er hverken enige eller uenige og 13 % er uenige.
+
+* Kun 3 % finder at de har manglet adgang til nødvendige informationer om kurset.
+
+* Godt 85 % erklærer sig enige eller helt enige i at kurset har været udbytterigt. 5 % er uenige eller meget uenige.
+
+* Generel stor tilfredshed med forelæserens engagement og formidling. 
+
+Desuden positive kommentarer omkring:
+
+* kursets struktur
+* kursets hjemmesiden
+* sammenhæng mellem forelæsninger og øvelser
+* tilgængelighed af videoer
+* quizzer
+* øvelsestimer / øvelseslærere
+* engageret og hjælpesom forelæser
+
+Negative kommentarer / forbedringer:
+
+* lærebogen
+* for meget teori ved forelæsninger
+* brug mere tid på enkelte R kommandoer ved forelæsninger
+* for mange slides til forelæsningerne
+* bedre motivation / mere interessante dataeksempler
+* desuden en masse konstruktive kommentarer som *bringes videre* men som peger i lidt forskellige retninger og derfor ikke bliver opsummeret her. Men tak!
